@@ -80,7 +80,7 @@ geolocator = Nominatim(user_agent="cyclistic_project")
     return data
 '''
 
-def calculate_distance(coord1, coord2):
+def calculate_distance(data):
     """
     Calculate distance between two coordinate points (in km).
     
@@ -91,7 +91,11 @@ def calculate_distance(coord1, coord2):
     Returns:
         float: Distance in kilometers
     """
-    return geodesic(coord1, coord2).kilometers
+    data['ride_distance(km)'] = data.apply(
+        lambda row: geodesic((row['start_lat'], row['start_lng']), 
+                             (row['end_lat'], row['end_lng'])).kilometers, axis=1).round(3)
+
+    return data
 
 
 
