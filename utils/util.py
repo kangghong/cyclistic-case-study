@@ -16,3 +16,7 @@ def verifyConcat (past_year_data, merged_data):
         totalRows += data.shape[0]
 
     return totalRows == merged_data.shape[0]
+
+import sys
+
+print("sys.prefix:", sys.prefix)
