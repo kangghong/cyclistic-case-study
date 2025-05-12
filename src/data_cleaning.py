@@ -7,6 +7,7 @@ def nullProportions (data):
 
     null_percents = {}
 
+
     for col in data.columns:
 
         null_percents[col] = { "prop": (int(data[col].isnull().sum())/ n_rows)*100 ,
@@ -34,4 +35,5 @@ def format_latlon(data):
 
 
     return data
+
 
