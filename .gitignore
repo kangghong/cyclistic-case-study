@@ -1,1 +1,5 @@
 gitAuth.txt
+
+# Data directories
+data/raw/
+data/processed/
