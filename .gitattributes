@@ -1,17 +1,13 @@
 *.ipynb text eol=lf
 *.ipynb diff=jupyternotebook
-
 *.png binary
 *.jpg binary
 *.jpeg binary
 *.svg text
 *.pdf binary
-
-*.csv text
-
+*.csv filter=lfs diff=lfs merge=lfs -text
 *.py text eol=lf
 *.md text
 .env text
-
 *.ipynb linguist-language=Jupyter Notebook
 *.csv linguist-detectable=false
