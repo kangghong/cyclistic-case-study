@@ -1,5 +1,8 @@
 ## Functions for analyzing trip trends
 import pandas as pd
+from data_cleaning import formatTime
+
+
 
 def calculateTimeDiff (df) :
 
@@ -12,44 +15,46 @@ def calculateTimeDiff (df) :
 
     return df
 
-def formatTime (timeDelta):
-    
-    days = timeDelta.components.days
-    hrs = days *24 + timeDelta.components.hours
-    mins = timeDelta.components.minutes
-    secs = timeDelta.components.seconds
-  
-
-    return f"{hrs:02}:{mins:02}:{secs:02}"
-
-def extract_weekday(data):
-
-    days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-
-    start_timestamp = pd.to_datetime(data['started_at'])
-    end_timestamp = pd.to_datetime(data['ended_at'])
-
-    data['start_day'] = start_timestamp.dt.dayofweek.map(lambda day:days[day])
-    data['end_day'] = end_timestamp.dt.dayofweek.map(lambda day:days[day])
-
-    return data
-
-def extract_month(data):
-
-    data['month_idx'] = pd.to_datetime(
-        data['started_at'], 
-        format='mixed'
-        ).dt.month
-    
-    return data
 
 def season_match (data, season):
 
-    seasons = {'spring': [3,4,5],
-               'summer': [6,7,8],
-               'autumn': [9,10,11],
-               'winter': [12,1,2]}
+    seasons = {'spring': ['March','April','May'],
+               'summer': ['June','July','August'],
+               'autumn': ['September','October','November'],
+               'winter': ['December','January','February']}
     
-    data = data.loc[data['month_idx'].isin(seasons[season])]
+    data = data.loc[data['month'].isin(seasons[season])]
 
     return data
+
+
+def filter_unfeasible_rides(data):
+    """
+    Filter out rows where the distance covered is not possible based on the ride_length (in minutes).
+    
+    Parameters:
+    - data: DataFrame containing columns 'distance_km', 'ride_length_min', and 'vehicle_type'.
+    - max_speeds: Dictionary mapping vehicle types to their maximum feasible speeds in km/h.
+    
+    Returns:
+    - Filtered DataFrame with only feasible rows.
+    """
+    max_speeds = {
+    'electric_bike': 30,  # km/h
+    'classic_bike': 20,   # km/h
+    'electric_scooter': 25  # km/h
+    }
+
+    # Convert ride_length from minutes to hours
+    data['ride_length_hours'] = data['ride_length(min)'] / 60
+    
+    # Calculate the maximum possible distance based on vehicle type
+    data['max_possible_distance'] = data.apply(lambda row: row['ride_length_hours'] * max_speeds[row['rideable_type']], axis=1)
+    
+    # Filter rows where actual distance exceeds the maximum possible distance
+    feasible_data = data.loc[data['ride_distance(km)'] <= data['max_possible_distance']]
+    
+    # Drop the temporary columns
+    feasible_data = feasible_data.drop(columns=['ride_length_hours', 'max_possible_distance'])
+    
+    return feasible_data

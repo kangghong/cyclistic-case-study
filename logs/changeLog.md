@@ -9,13 +9,34 @@
 
 Tracks data cleaning steps for 'customer_orders.csv'.
 
-## Version [1.2.0]-(05-13-2025)
+## Version [1.2.0]-(05-14-2025)
 
 ### New
 
+    - Added extract_hour function to trip_analysis.py, for analysis of peak hour behaviours
+    - Added generate_hist_plot function to user_segmentation.py, as reusable code for generating histogram
+    - Added filter_unfeasible_rides function in trip_analysis.py, to single out rides that aren't possible
+    - Added .gitattributes file to control Git file handling, included relevant lines
+    - Added generate_pie, generate_hist_plot and plot_pivot_table visualization functions
+    - Filled in final.ipynb with concised code, and relevant visualizations
+    - Filled in requirements.txt with relevant dependencies
+    - Added assets folder
+
 ### Changes
 
+    - Changed parameter of generate_prop_plot function to an intuitive name
+    - Moved time_to_minutes function to data_cleaning.py
+    - Changed metrics of data analysis to median, for ride distances and ride times
+    - Changed output of extract_month function, to output the month instead of its index
+    - Moved extract_month, extract_weekday, extract_hour and formatTime functions to data_cleaning.py
+    - Modified barplot of generate_prop_plot function, to not generate stacked bar charts
+    - Renamed src file to data_viz.py
+    - Improved generalizability of generate_prop_plot function
+    - Utilized reusable code for code repeats
+
 ### Fixes
+
+    - Fixed generate_prop_plot function to take in the season, as a argument
 
 ## Version [1.1.0]-(05-12-2025)
 

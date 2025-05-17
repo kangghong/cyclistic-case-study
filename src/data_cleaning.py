@@ -36,4 +36,45 @@ def format_latlon(data):
 
     return data
 
+def time_to_minutes(time_str):
+    h, m, s = map(int, time_str.split(':'))
+    return h * 60 + m + s / 60
 
+def extract_hour(data):
+
+    start_timestamp = pd.to_datetime(data['started_at'], format='mixed')
+
+    data['start_hour'] = start_timestamp.dt.hour
+
+    return data
+
+def extract_weekday(data):
+
+    days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+
+    start_timestamp = pd.to_datetime(data['started_at'])
+    end_timestamp = pd.to_datetime(data['ended_at'])
+
+    data['start_day'] = start_timestamp.dt.dayofweek.map(lambda day:days[day])
+    data['end_day'] = end_timestamp.dt.dayofweek.map(lambda day:days[day])
+
+    return data
+
+def extract_month(data):
+
+    data['month'] = pd.to_datetime(
+        data['started_at'], 
+        format='mixed'
+        ).dt.strftime('%B')
+    
+    return data
+
+def formatTime (timeDelta):
+    
+    days = timeDelta.components.days
+    hrs = days *24 + timeDelta.components.hours
+    mins = timeDelta.components.minutes
+    secs = timeDelta.components.seconds
+  
+
+    return f"{hrs:02}:{mins:02}:{secs:02}"

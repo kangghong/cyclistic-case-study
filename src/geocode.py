@@ -9,7 +9,7 @@ from folium.plugins import HeatMap
 import folium
 
 
-geolocator = Nominatim(user_agent="cyclistic_project")
+# geolocator = Nominatim(user_agent="cyclistic_project")
 
 '''def reverse_geocode(data, type, pause=1.0):
     """
@@ -100,12 +100,11 @@ def calculate_distance(data):
 
     return data
 
-def generate_heatmap(data, season):
+def generate_heatmap(data, membership_status):
 
     sampled_data = data.sample(frac=0.01)
 
-    gdf = gpd.GeoDataFrame(sampled_data, 
-                           geometry=gpd.points_from_xy(sampled_data.start_lng, sampled_data.start_lat))
+    gdf = gpd.GeoDataFrame(sampled_data, geometry=gpd.points_from_xy(sampled_data.start_lng, sampled_data.start_lat))
 
     map_center = [gdf['start_lat'].mean(), 
                   gdf['start_lng'].mean()]
@@ -113,11 +112,10 @@ def generate_heatmap(data, season):
     mymap = folium.Map(location=map_center, zoom_start=12)
 
     # Create a heatmap layer
-    heat_data = [[row['start_lat'], 
-                  row['start_lng']] for _, row in sampled_data.iterrows()]
+    heat_data = [[row['start_lat'], row['start_lng']] for _, row in sampled_data.iterrows()]
     
     HeatMap(heat_data).add_to(mymap)
 
     # Save the map to an HTML file
-    mymap.save(f"cyclistic-start-heatmap_{season}.html")
+    mymap.save(f"cyclistic-start-heatmap_{membership_status}.html")
 
