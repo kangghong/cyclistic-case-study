@@ -37,6 +37,7 @@ Tracks data cleaning steps for 'customer_orders.csv'.
 ### Fixes
 
     - Fixed generate_prop_plot function to take in the season, as a argument
+    - Fixed cell outputs of all notebooks
 
 ## Version [1.1.0]-(05-12-2025)
 
