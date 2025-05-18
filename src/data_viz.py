@@ -95,9 +95,9 @@ def generate_hist_plot(data, category, subcategory1):
     prop_table.plot(kind='bar')
 
     plt.title(f'{category} vs {subcategory1} (%)')
-    plt.xlabel(f'{category}')
+    plt.xlabel(f'{subcategory1}')
     plt.ylabel('Percentage')
-    plt.legend(title=f'{subcategory1}')
+    plt.legend(title=f'{category}')
 
     plt.show()
 
@@ -205,9 +205,9 @@ def generate_stack_hist(data, category, subcategory, third_category=None):
         plt.legend(title=f'{category} by {third_category}')
     else:
         plt.title(f'Proportion of {category} by {subcategory} (%)')
-        plt.xlabel(f'{subcategory}')
+        plt.xlabel(f'{category}')
         plt.ylabel('Percentage')
-        plt.legend(title=f'{category}')
+        plt.legend(title=f'{subcategory}')
 
     # Step 5: Show the plot
     plt.show()
